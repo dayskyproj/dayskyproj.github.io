@@ -17,7 +17,7 @@ jobs:
       run: dotnet publish -c Release
 
     - name: Rewrite base href
-      uses: dayskyproj/ghaction-rewrite-base-href@v1
+      uses: dayskyproj
       with:
         html_path: ${{ env.PUBLISH_DIR }}/index.html
         base_href: /ProjectQT/
