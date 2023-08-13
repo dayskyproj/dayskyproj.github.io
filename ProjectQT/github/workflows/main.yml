@@ -5,7 +5,7 @@ env:
 # Controls when the action will run
 on:
   push:
-    branches: [ master ]
+    branches: [ main ]
 
 jobs:
   build:
@@ -17,10 +17,10 @@ jobs:
       run: dotnet publish -c Release
 
     - name: Rewrite base href
-      uses: SteveSandersonMS/ghaction-rewrite-base-href@v1
+      uses: dayskyproj/ghaction-rewrite-base-href@v1
       with:
         html_path: ${{ env.PUBLISH_DIR }}/index.html
-        base_href: /BlazorOnGitHubPages/
+        base_href: /ProjectQT/
 
     - name: GitHub Pages
       if: success()
