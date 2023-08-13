@@ -1,0 +1,19 @@
+﻿@inherits TooltipBase
+
+@if (!string.IsNullOrEmpty(Text))
+{
+    <div class="tooltip-wrapper @ClassStyle">
+        <span class="tooltip-span">@Text</span>
+        @ChildContent
+    </div>
+}
+else
+{
+    <div class="@ClassStyle">
+        @ChildContent
+    </div>
+}
+
+
+
+

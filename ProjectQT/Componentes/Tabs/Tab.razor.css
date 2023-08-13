@@ -1,0 +1,18 @@
+﻿.activar {
+    background: blue;
+    color: white !important;
+    cursor: not-allowed;
+}
+.desactivar {
+    background: white;
+    color: black;
+    cursor: pointer;
+}
+
+.disable-select {
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Chrome/Safari/Opera */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none; /* Non-prefixed version, currently supported by any browser but < IE9 */
+}
