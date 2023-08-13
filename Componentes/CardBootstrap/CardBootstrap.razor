@@ -1,0 +1,40 @@
+﻿<div class="row">
+
+    <div class="col-12">
+
+        <div class="card">
+
+            <div class="card-header" 
+
+                style="background-color: #155C70">
+
+                <h3 class="card-title" 
+                    style="font-weight: bold; color: white;">
+
+                    @Titulo
+
+                </h3>
+
+            </div>
+
+            <div class="card-body">
+                
+                @Cuerpo
+                
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<br/>
+
+@code {
+    [Parameter]
+    public string Titulo { get; set; }
+
+    [Parameter]
+    public RenderFragment Cuerpo { get; set; }
+}

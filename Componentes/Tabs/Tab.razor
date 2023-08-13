@@ -1,0 +1,33 @@
+﻿@implements ITab
+
+<li>
+    <a @onclick="ActivarTab" class="nav-link @TitleCssClass disable-select" role="button" >
+        @Titulo
+    </a>
+</li>
+
+@code {
+    
+    [CascadingParameter]
+    public TabSet ContenidoTabSet { get; set; }
+
+    [Parameter]
+    public string Titulo { get; set; }
+
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+
+    private string TitleCssClass =>
+        ContenidoTabSet.ActivaTab == this ? "activar" : "desactivar";
+
+    protected override void OnInitialized()
+    {
+        ContenidoTabSet.AgregarTab(this);
+    }
+
+    private void ActivarTab()
+    {
+        ContenidoTabSet.CambiarTab(this);
+    }
+
+}

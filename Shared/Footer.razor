@@ -1,0 +1,23 @@
+﻿@using Microsoft.JSInterop
+
+
+<footer class="footer " id="footer" 
+        oncontextmenu="return false;" >
+    <strong >
+
+        2023 &copy; Desarrollado por el Awas :v
+
+    </strong>
+</footer>
+
+
+@code {
+
+    [Inject] IJSRuntime JS { get; set; }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+         await JS.InvokeAsync<string>("FooterResized", DotNetObjectReference.Create(this));
+    }
+
+}
