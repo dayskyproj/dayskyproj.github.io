@@ -1,0 +1,28 @@
+name: DeployProjectQt
+env:
+  PUBLISH_DIR: bin/Debug/net6.0/wwwroot 
+
+# Controls when the action will run
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: Publish app
+      run: dotnet publish -c Release
+
+    - name: Rewrite base href
+      with:
+        html_path: ${{ env.PUBLISH_DIR }}/index.html
+        base_href: /ProjectQT/
+
+    - name: GitHub Pages
+      with:
+        target_branch: gh-pages
+        build_dir: ${{ env.PUBLISH_DIR }}
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
