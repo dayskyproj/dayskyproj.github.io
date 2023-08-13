@@ -1,0 +1,361 @@
+﻿@import url('open-iconic/font/css/open-iconic-bootstrap.min.css');
+
+html, body {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+a, .btn-link {
+    color: #0366d6;
+}
+
+.btn-primary {
+    color: #fff;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
+}
+
+.content {
+    padding-top: 1.1rem;
+}
+
+.valid.modified:not([type=checkbox]) {
+    outline: 1px solid #26b050;
+}
+
+.invalid {
+    outline: 1px solid red;
+}
+
+.validation-message {
+    color: red;
+}
+
+#blazor-error-ui {
+    background: lightyellow;
+    bottom: 0;
+    box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.2);
+    display: none;
+    left: 0;
+    padding: 0.6rem 1.25rem 0.7rem 1.25rem;
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+}
+
+    #blazor-error-ui .dismiss {
+        cursor: pointer;
+        position: absolute;
+        right: 0.75rem;
+        top: 0.5rem;
+    }
+
+.loader {
+    border: 16px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 16px solid #3498db;
+    width: 100px;
+    height: 100px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    -webkit-animation: spin 1s linear infinite; /* Safari */
+    animation: spin 1s linear infinite;
+    margin: 0 auto;
+}
+
+/* Safari */
+@-webkit-keyframes spin {
+    0% {
+        -webkit-transform: rotate(0deg);
+    }
+
+    100% {
+        -webkit-transform: rotate(360deg);
+    }
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+
+table tbody tr:nth-child(odd) {
+    background: #FFFFFF;
+}
+
+
+table tbody tr:nth-child(even) {
+    background: #E1E1E1;
+}
+
+table thead {
+    background: #444;
+    color: #fff;
+    font-size: 18px;
+    border: black 4px solid;
+    text-align: center !important
+}
+
+table {
+    white-space: nowrap;
+    width: 100%
+}
+
+
+.buttonDerecha {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end
+}
+
+
+table.table-bordered th {
+    border: black 4px solid;
+}
+
+table.table-bordered td {
+    border: black 4px solid;
+}
+
+
+table thead,
+table tfoot {
+    position: sticky;
+}
+
+table thead {
+    inset-block-start: 0;
+    z-index: 10;
+    background: #444;
+    color: #fff;
+}
+
+table tfoot {
+    inset-block-end: 0;
+    background: #444;
+    color: #fff;
+}
+
+.table-responsive {
+    height: 50vh;
+    overflow-y: auto;
+    overflow-x: auto;
+}
+
+    .table-responsive::-webkit-scrollbar {
+        width: 8px; /*Tamaño del scroll en vertical */
+        height: 8px; /*Tamaño del scroll en horizontal */
+    }
+
+    /*Ponemos un color de fondo y redondeamos las esquinas del thumb*/
+    .table-responsive::-webkit-scrollbar-thumb {
+        background-color: white; /*color of the scroll thumb */
+        border-radius: 20px; /*roundness of the scroll thumb */
+        border: 3px solid black; /*creates padding around scroll thumb */
+    }
+
+        /*  Cambiamos el fondo y agregamos una sombra cuando esté en hover */
+        .table-responsive::-webkit-scrollbar-thumb:hover {
+            background: rgba(58,0,198,0.5);
+            box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.2);
+        }
+
+        /*   Cambiamos el fondo cuando esté en active */
+        .table-responsive::-webkit-scrollbar-thumb:active {
+            background-color: rgba(58,0,198,0.5);
+        }
+
+
+table thead .icono {
+    cursor: pointer;
+    padding: 0px 5px
+}
+
+
+
+.disable-select {
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Chrome/Safari/Opera */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none; /* Non-prefixed version, currently supported by any browser but < IE9 */
+}
+
+.selectActual {
+    background-color: #b0bed9 !important;
+}
+
+.selectAnterior {
+    background-color: #20FF7D;
+}
+
+.silver {
+    color: silver;
+}
+
+.divFiltro {
+    float: left;
+    display: grid;
+    /* grid-template-columns:  10% 50%; */
+}
+
+.divPaginador {
+    float: right;
+}
+
+
+
+@media (min-width: 300px) and (max-width: 1280px) {
+
+    .divFiltro {
+        float: left;
+        display: grid;
+        /* grid-template-columns:  20% 80%;*/
+    }
+
+    .divPaginador {
+        float: left;
+    }
+
+    @media (max-width: 641px) {
+        .divFiltro {
+            padding-top: 15px;
+            padding: 0;
+        }
+
+        .divPaginador {
+            padding-top: 15px;
+        }
+
+        .alinearInfoPaginador {
+            text-align: center;
+            width: 100%
+        }
+
+
+        .contenedorBuscar ul {
+            padding-top: 15px;
+            justify-content: flex-start !important;
+        }
+
+        .paddingLi {
+            padding-left: 0;
+        }
+
+        .liInput {
+            width: 100%
+        }
+    }
+}
+
+@media (max-width: 280px) {
+    .divFiltro {
+        float: left;
+        display: grid;
+        /*  grid-template-columns:  30% 70%;*/
+        padding-top: 15px;
+    }
+
+    .divPaginador {
+        float: left;
+    }
+
+    .alinearInfoPaginador {
+        text-align: center;
+        width: 100%
+    }
+}
+
+.contenedorBuscar {
+    width: 100%;
+}
+
+    .contenedorBuscar ul {
+        justify-content: flex-end;
+        display: flex;
+    }
+
+        .contenedorBuscar ul li {
+            list-style-type: none;
+        }
+
+
+
+ul {
+    padding: 0;
+}
+
+
+.containerTable {
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+
+@media (min-width: 576px) and (max-width: 991px) {
+
+    @media (min-width: 576px) and (max-width: 767px) {
+
+        .containerTable {
+            max-width: 540px;
+        }
+    }
+
+    @media (min-width: 768px) {
+
+        .containerTable {
+            max-width: 720px;
+        }
+    }
+}
+
+
+@media (min-width: 1200px) {
+    .containerTable {
+        max-width: 1140px;
+    }
+}
+
+@media (min-width: 992px) and (max-width: 1199px) {
+    .containerTable {
+        max-width: 960px;
+    }
+}
+
+td .sizeSelectTableLecturaMasiva {
+    width: 410px;
+}
+
+td .sizeSelect2Tablas {
+    width: 410px;
+}
+
+td .sizeSelectTableTarifaConsumo {
+    width: 200px;
+}
+
+td .sizeSelectTableTarifaFijo {
+    width: 200px;
+}
+
+td .sizeSelectTableLecturaTerminalPortatil {
+    width: 410px;
+}
+
+.select2-selection {
+    overflow: hidden !important;
+}
+
+.select2-selection__rendered {
+    white-space: normal !important;
+    word-break: break-all !important;
+}
