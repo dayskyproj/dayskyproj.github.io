@@ -281,7 +281,7 @@
       "url": "Imagenes\/EXP 600.png"
     },
     {
-      "hash": "sha256-tuL79QXtiy4rd8EYjPc0jsijhGX17BAtnINcok4O5aA=",
+      "hash": "sha256-Zf7T4sTOYyWyWP3Jf0qG\/dNNOBEBVbood0WkHPqQ62w=",
       "url": "Imagenes\/Icono.ico"
     },
     {
@@ -573,5 +573,5 @@
       "url": "sample-data\/weather.json"
     }
   ],
-  "version": "ZCtSjMGi"
+  "version": "UtCyMOgL"
 };
