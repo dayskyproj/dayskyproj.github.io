@@ -1,0 +1,125 @@
+﻿@inherits HorarioNivelesBase
+
+
+
+@if (Titulos.Count != 0 && Tiempos.Count != 0)
+{
+    <TabSet SizeSM="12" @ref="@TabsSet">
+
+   
+        @foreach (var x in Titulos.Select((e, i) => new { data = e, Index = i }))
+
+        {
+    
+            <Tab Titulo="@x.data" @ref="@Tabs[x.Index]">
+
+                @if (NotaDelNivel[x.Index] != "")
+                {             
+                    @((MarkupString)NotaDelNivel[x.Index])
+
+                    <hr />
+
+                }
+
+
+                <div class="col-12">
+
+                    <div class="container table-responsive">
+
+                            <table id="@x.data.Replace(" ", "")" 
+                                class="display table table-bordered disable-select">
+
+
+                                <thead>
+                                   
+                                    <tr>
+
+                                        <th>
+                                            Mes
+                                        </th>
+
+                                        <th>
+                                            Dia
+                                        </th>
+
+                                        <th>
+                                            Hora
+                                        </th>
+
+                                        <th>
+                                            minutos
+                                        </th>
+
+                                    </tr>
+                                   
+
+                                </thead>
+
+                                <tbody>
+
+                                    <tr>
+
+                                        <td style="text-align: center">
+
+                                           @Tiempos[x.Index].Month
+
+                                        </td>
+
+                                        <td style="text-align: center">
+
+                                            @Tiempos[x.Index].Day
+
+                                        </td>
+
+                                        <td style="text-align: center">
+
+                                            @Tiempos[x.Index].Hour
+
+                                        </td>
+
+                                        <td style="text-align: center">
+
+                                            @Tiempos[x.Index].Minute
+
+                                        </td>
+
+                                    </tr>
+
+                                </tbody>
+
+                            </table>
+
+
+                    </div>
+
+                </div>
+
+            </Tab>
+
+
+        }
+            
+        
+    </TabSet>
+
+}
+else
+{
+    <TabSet SizeSM="12" @ref="@TabsSet">
+
+        @foreach (var x in TitulosDefecto.Select((e, i) => new { data = e, Index = i }))
+
+        {
+            <Tab Titulo="@x.data" @ref="@Tabs[x.Index]">
+
+                <label>sin info</label>
+
+            </Tab>
+        }
+
+
+    </TabSet>
+
+}
+
+
