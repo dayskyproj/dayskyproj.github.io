@@ -1,0 +1,15 @@
+﻿@inherits TabsSetBase
+
+<div class="ContenedorTab">
+    <CascadingValue Value=this>
+        <ul class="nav nav-tabs">
+            @ChildContent
+        </ul>
+    </CascadingValue>
+
+    <!-- Mostrar cuerpo solo para la pestaña activa -->
+
+    <div class="nav-tabs-body p-4">
+        @ActivaTab?.ChildContent
+    </div>
+</div>

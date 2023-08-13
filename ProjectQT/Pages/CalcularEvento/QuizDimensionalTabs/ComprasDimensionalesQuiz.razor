@@ -1,0 +1,251 @@
+﻿
+@inherits ComprasDimensionalesQuizBase
+
+
+<div class="col-sm-4">
+    <button class="btn btn-primary" @onclick="() => ModalMentas.Open()">Registrar Mentas</button>
+</div>
+
+
+<div class="col-sm-4">
+    <button class="btn btn-primary" @onclick="() => ModalJRegalos.Open()">Registrar Regalos</button>
+</div>
+
+
+@if (MaximoRegalos.Count != 0)
+
+{
+
+    <VentanaModal @ref="ModalJRegalos" CerrarModal="(async() => await NoActualizarActuales.InvokeAsync())">
+
+        <Title> @TituloVentanas[0] </Title>
+
+        <Body>
+
+            <div class="row">
+
+                <div class="col-sm-6 col-md-6 col-lg-4">
+
+                    <CardBootstrap Titulo="@TitulosRegalos[0]">
+
+                        <Cuerpo>
+
+                            <div class="form-group">
+
+                                <img src="Imagenes/EXP 150.png" class="rounded mx-auto d-block">
+
+                                <input type="number" class="form-control" id="Precio1Previo"
+                                       min="0" max="@MaximoRegalos[0].ToString()"
+                                @bind="@CompraRegalos[0]" style="margin: 15px 0px">
+                                
+                                <label> Máximo: @MaximoRegalos[0].ToString() </label>
+
+                            </div>
+
+                        </Cuerpo>
+
+                    </CardBootstrap>
+
+                </div>
+
+                <div class="col-sm-6 col-md-6 col-lg-4">
+
+                    <CardBootstrap Titulo="@TitulosRegalos[1]">
+
+                        <Cuerpo>
+
+                            <div class="form-group">
+
+
+                                <img src="Imagenes/EXP 600.png" class="rounded mx-auto d-block">
+
+                                <input type="number" class="form-control" id="Precio2Previo"
+                                       min="0" max="@MaximoRegalos[1].ToString()"
+                                @bind="@CompraRegalos[1]" style="margin: 15px 0px">
+
+
+                                <label> Máximo: @MaximoRegalos[1].ToString() </label>
+
+                            </div>
+
+                        </Cuerpo>
+
+                    </CardBootstrap>
+
+                </div>
+
+                <div class="col-sm-6 col-md-6 col-lg-4">
+
+                    <CardBootstrap Titulo="@TitulosRegalos[2]">
+
+
+                        <Cuerpo>
+
+                            <div class="form-group">
+
+
+                                <img src="Imagenes/EXP 1250.png" class="rounded mx-auto d-block">
+
+                                <input type="number" class="form-control" id="Precio3Previo"
+                                       min="0" max="@MaximoRegalos[2].ToString()"
+                                @bind="@CompraRegalos[2]" style="margin: 15px 0px">
+
+                                <label> Máximo: @MaximoRegalos[2].ToString() </label>
+
+                            </div>
+
+
+                        </Cuerpo>
+
+                    </CardBootstrap>
+
+                </div>
+
+                <div class="col-sm-6 col-md-6 col-lg-4">
+
+                    <CardBootstrap Titulo="@TitulosRegalos[3]">
+
+
+                        <Cuerpo>
+
+                            <div class="form-group">
+
+
+                                <img src="Imagenes/EXP 3000.png" class="rounded mx-auto d-block">
+
+                                <input type="number" class="form-control" id="Precio4Previo"
+                                       min="0" max="@MaximoRegalos[3].ToString()"
+                                @bind="@CompraRegalos[3]" style="margin: 15px 0px">
+
+                                <label> Máximo: @MaximoRegalos[3].ToString() </label>
+
+                            </div>
+
+
+                        </Cuerpo>
+
+                    </CardBootstrap>
+
+                </div>
+
+            </div>
+
+        </Body>
+
+        <Footer>
+
+            <button type="button" class="btn btn-primary"
+            @onclick="(async() => await ActualizarRegalos())">
+                Guardar
+            </button>
+
+            <button type="button" class="btn btn-secondary" data-dismiss="modal"
+            @onclick="CerrarRegalos">
+                Cerrar
+            </button>
+
+        </Footer>
+    </VentanaModal>
+
+    <VentanaModal @ref="ModalMentas" CerrarModal="(async() => await NoActualizarActuales.InvokeAsync())">
+
+        <Title> @TituloVentanas[1] </Title>
+
+        <Body>
+
+            <div class="row">
+
+                <div class="col-sm-6 col-md-6 col-lg-4">
+
+                    <CardBootstrap Titulo="@TitulosMentas[0]">
+
+                        <Cuerpo>
+
+                            <div class="form-group">
+
+                                <img src="Imagenes/Mentas X15.png" class="rounded mx-auto d-block">
+
+                                <input type="number" class="form-control" id="Precio1Previo"
+                                       min="0" max="@MaximoMentas[0].ToString()"
+                                        @bind="@CompraMentas[0]" style="margin: 15px 0px">
+
+                                <label> Máximo: @MaximoMentas[0].ToString() </label>
+
+                            </div>
+
+                        </Cuerpo>
+
+                    </CardBootstrap>
+
+                </div>
+
+                <div class="col-sm-6 col-md-6 col-lg-4">
+
+                    <CardBootstrap Titulo="@TitulosMentas[1]">
+
+                        <Cuerpo>
+
+                            <div class="form-group">
+
+                                <img src="Imagenes/Mentas X15.png" class="rounded mx-auto d-block">
+
+                                <input type="number" class="form-control" id="Precio2Previo"
+                                       min="0" max="@MaximoMentas[1].ToString()"
+                                @bind="@CompraMentas[1]" style="margin: 15px 0px">
+
+                                <label> Máximo: @MaximoMentas[1].ToString() </label>
+
+                            </div>
+
+                        </Cuerpo>
+
+                    </CardBootstrap>
+
+                </div>
+
+                <div class="col-sm-6 col-md-6 col-lg-4">
+
+                    <CardBootstrap Titulo="@TitulosMentas[2]">
+
+
+                        <Cuerpo>
+
+                            <div class="form-group">
+
+                                <img src="Imagenes/Mentas X15.png" class="rounded mx-auto d-block">
+
+                                <input type="number" class="form-control" id="Precio3Previo"
+                                       min="0" max="@MaximoMentas[2].ToString()"
+                                @bind="@CompraMentas[2]" style="margin: 15px 0px">
+
+                                <label> Máximo: @MaximoMentas[2].ToString() </label>
+
+                            </div>
+
+
+                        </Cuerpo>
+
+                    </CardBootstrap>
+
+                </div>
+
+
+            </div>
+
+        </Body>
+
+        <Footer>
+
+            <button type="button" class="btn btn-primary"
+            @onclick="(async() => await ActualizarMentas())">
+                Guardar
+            </button>
+
+            <button type="button" class="btn btn-secondary" data-dismiss="modal"
+            @onclick="CerrarMentas">
+                Cerrar
+            </button>
+
+        </Footer>
+    </VentanaModal>
+}
