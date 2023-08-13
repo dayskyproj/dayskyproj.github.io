@@ -1,9 +1,0 @@
-﻿@inherits CheckBoxBase
-
-@{ 
-
-    bool check = ValorOpcionActiva == Valor;
-}
-
-<input type="checkbox" id="@ID" value="@Valor" checked=@check readonly=@CheckBoxReadonly
-       @onchange="RadioSelection" tabindex="1" >
