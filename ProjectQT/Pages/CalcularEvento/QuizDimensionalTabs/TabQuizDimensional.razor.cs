@@ -194,7 +194,11 @@ namespace ProjectQT.Pages.CalcularEvento.QuizDimensionalTabs
 
         [Inject]
         IJSRuntime JSRuntime { get; set; }
+
         public List<string> Collapsable { get; set; } = new() { "", "", "" };
+        public List<string> CollapsableIcono { get; set; } = new() 
+        { "fas fa-caret-left", "fas fa-caret-left", "fas fa-caret-left" };
+
         public HorarioNivelesBase Horario { get; set; } = new();
         #endregion
 
@@ -226,11 +230,14 @@ namespace ProjectQT.Pages.CalcularEvento.QuizDimensionalTabs
                 if (indexActual == index)
                 {
                     Collapsable[index] = "";
+                    CollapsableIcono[index] = "fas fa-caret-left";
                 }
                 else 
                 {
                     Collapsable[index] = "show";
+                    CollapsableIcono[index] = "fas fa-caret-down";
                     Collapsable[indexActual] = "";
+                    CollapsableIcono[indexActual] = "fas fa-caret-left";
                 }
 
                 
@@ -238,12 +245,11 @@ namespace ProjectQT.Pages.CalcularEvento.QuizDimensionalTabs
             else 
             {
                 Collapsable[index] = "show";
+                CollapsableIcono[index] = "fas fa-caret-down";
             }
 
            
         }
-
-
 
         public void ActualizarFechaFinal(ChangeEventArgs  e) 
         {
@@ -255,7 +261,12 @@ namespace ProjectQT.Pages.CalcularEvento.QuizDimensionalTabs
         }
 
 
-        public void ActualizarNumeroPreguntas(string ValorS) 
+
+
+
+        #region metodos selects
+
+        public void ActualizarNumeroPreguntas(string ValorS)
         {
             OpcionNivel = ValorS;
             int pregunta = ValorS == "" ? 0 : Convert.ToInt32(ValorS);
@@ -270,7 +281,7 @@ namespace ProjectQT.Pages.CalcularEvento.QuizDimensionalTabs
                 MinimoExp = "0";
                 MaximoExp = "1000";
             }
-            else 
+            else
             {
                 OpcionesPregunta = (from x in InfoEvento.DataExp
                                     where x.Nivel == pregunta
@@ -297,12 +308,24 @@ namespace ProjectQT.Pages.CalcularEvento.QuizDimensionalTabs
             MensajeExp = PatronMensajeExp.Replace("{min}", MinimoExp);
             MensajeExp = MensajeExp.Replace("{max}", MaximoExp);
 
+
+            TotalGemasGastadas = 0;
+            GastosGemasActual = 0;
+
+
+            for (int i = 0; i < 4; i++)
+            {
+
+                ExpActual += CompraRegalosActual[i] * InfoEvento.PaqueteRegalos[i].CantidadMaterial;
+                GastosGemasActual += InfoEvento.PaqueteRegalos[i].CostoGemas * CompraRegalosActual[i];
+
+            }
+
             StateHasChanged();
 
+
+
         }
-
-
-        #region metodos selects
 
         public void ActualizarsSelectPaqueteP2W(string ValorS)
         {
@@ -335,6 +358,8 @@ namespace ProjectQT.Pages.CalcularEvento.QuizDimensionalTabs
             }
 
             TotalGemasObtenidas = GemasObtenidasPaqueteP2WPrevio;
+
+
 
         }
 

@@ -263,16 +263,28 @@
         <div class="card col-sm-12">
 
             <div class="card-header" style="background-color: #155C70; z-index:1"
-            @onclick="(() => ActualizarCollapsable(0))">
-
-
-                <h5 class="card-title" data-toggle="collapse"
+                @onclick="(() => ActualizarCollapsable(0))">
+                <div class="card-title" data-toggle="collapse"
                     data-target="#collapseTiempoFinal"
                     style="font-weight: bold; color: white;">
 
-                    Tiempo Final
+                    <div class="row">
 
-                </h5>
+                        <h5 class="col-11">
+                            Tiempo Final
+                        </h5>
+
+
+                        <h5 class="col-1" style="text-align: right;">
+
+                            <span class="@CollapsableIcono[0]" style="font-weight: bold; color: white;" />
+
+                        </h5>
+
+                    </div>
+
+
+                </div>
 
 
             </div>
@@ -367,13 +379,26 @@
             <div class="card-header" style="background-color: #155C70; z-index:1"
             @onclick="(() => ActualizarCollapsable(1))">
 
-                <h5 class="card-title" data-toggle="collapse"
+                <div class="card-title" data-toggle="collapse"
                     data-target="#collapseHorarioNiveles"
                     style="font-weight: bold; color: white;">
 
-                    Horarios Niveles
+                    <div class="row">
 
-                </h5>
+                        <h5 class="col-11">
+                            Horarios Niveles
+                        </h5>
+
+
+                        <h5 class="col-1" style="text-align: right;">
+
+                            <span class="@CollapsableIcono[1]" style="font-weight: bold; color: white;" />
+
+                        </h5>
+
+                    </div>
+
+                </div>
 
             </div>
 
@@ -399,13 +424,26 @@
             @onclick="(() => ActualizarCollapsable(2))">
 
 
-                <h5 class="card-title" data-toggle="collapse"
+                <div class="card-title" data-toggle="collapse"
                     data-target="#collapseGastosGemas"
                     style="font-weight: bold; color: white;">
 
-                    Gastos en Gemas
+                    <div class="row">
 
-                </h5>
+                        <h5 class="col-11">
+                            Gastos en Gemas
+                        </h5>
+
+
+                        <h5 class="col-1" style="text-align: right;">
+
+                            <span class="@CollapsableIcono[2]" style="font-weight: bold; color: white;" />
+
+                        </h5>
+
+                    </div>
+
+                </div>
 
 
             </div>
