@@ -295,6 +295,26 @@
                 {
                     <div class="card-body">
 
+                        @if (TiempoFinales.TotalMinutes <= 0)
+
+                        {
+                            <h1 style="font-weight: bold; color: red;">
+
+                                Evento Perdido
+
+                            </h1>
+                        }
+
+                        else 
+
+                        {
+                            <h1 style="font-weight: bold; color: limegreen;">
+
+                                Evento Ganado
+
+                            </h1>
+                        }
+
                         <div class="col-12">
 
                             <div class="container table-responsive">
