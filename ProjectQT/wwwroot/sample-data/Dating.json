@@ -1,0 +1,540 @@
+﻿[
+  {
+    "Version": "V1",
+    "MaximoCristalesRevival": 400,
+    "DuracionEvento": 13,
+    "InfoMaquina": [
+      {
+        "Nivel": 1,
+        "Material": 4
+      },
+      {
+        "Nivel": 2,
+        "Material": 5
+      },
+      {
+        "Nivel": 3,
+        "Material": 7
+      },
+      {
+        "Nivel": 4,
+        "Material": 9
+      }
+    ],
+    "DataExp": [
+      {
+        "Capitulo": 1,
+        "Accion": 1,
+        "Porcentaje": 0.50,
+        "Exp": 10,
+        "Pocion": 1
+      },
+      {
+        "Capitulo": 1,
+        "Accion": 2,
+        "Porcentaje": 1,
+        "Exp": 40,
+        "Pocion": 2
+      },
+      {
+        "Capitulo": 2,
+        "Accion": 1,
+        "Porcentaje": 0.50,
+        "Exp": 10,
+        "Pocion": 1
+      },
+      {
+        "Capitulo": 2,
+        "Accion": 2,
+        "Porcentaje": 1,
+        "Exp": 40,
+        "Pocion": 2
+      },
+      {
+        "Capitulo": 3,
+        "Accion": 1,
+        "Porcentaje": 0.20,
+        "Exp": 10,
+        "Pocion": 1
+      },
+      {
+        "Capitulo": 3,
+        "Accion": 2,
+        "Porcentaje": 0.60,
+        "Exp": 40,
+        "Pocion": 2
+      },
+      {
+        "Capitulo": 3,
+        "Accion": 3,
+        "Porcentaje": 1,
+        "Exp": 120,
+        "Pocion": 4
+      },
+      {
+        "Capitulo": 4,
+        "Accion": 1,
+        "Porcentaje": 0.20,
+        "Exp": 10,
+        "Pocion": 1
+      },
+      {
+        "Capitulo": 4,
+        "Accion": 2,
+        "Porcentaje": 0.50,
+        "Exp": 40,
+        "Pocion": 2
+      },
+      {
+        "Capitulo": 4,
+        "Accion": 3,
+        "Porcentaje": 0.70,
+        "Exp": 120,
+        "Pocion": 4
+      },
+      {
+        "Capitulo": 4,
+        "Accion": 4,
+        "Porcentaje": 1,
+        "Exp": 360,
+        "Pocion": 6
+      }
+    ],
+    "DataPregunta": [
+      {
+        "Capitulo": 1,
+        "Pregunta": 1,
+        "Pocion": 5
+      },
+      {
+        "Capitulo": 1,
+        "Pregunta": 2,
+        "Pocion": 5
+      },
+      {
+        "Capitulo": 1,
+        "Pregunta": 3,
+        "Pocion": 6
+      },
+      {
+        "Capitulo": 2,
+        "Pregunta": 1,
+        "Pocion": 10
+      },
+      {
+        "Capitulo": 2,
+        "Pregunta": 2,
+        "Pocion": 10
+      },
+      {
+        "Capitulo": 2,
+        "Pregunta": 3,
+        "Pocion": 10
+      },
+      {
+        "Capitulo": 3,
+        "Pregunta": 1,
+        "Pocion": 10
+      },
+      {
+        "Capitulo": 3,
+        "Pregunta": 2,
+        "Pocion": 10
+      },
+      {
+        "Capitulo": 3,
+        "Pregunta": 3,
+        "Pocion": 10
+      },
+      {
+        "Capitulo": 3,
+        "Pregunta": 4,
+        "Pocion": 10
+      },
+      {
+        "Capitulo": 3,
+        "Pregunta": 5,
+        "Pocion": 10
+      },
+      {
+        "Capitulo": 4,
+        "Pregunta": 1,
+        "Pocion": 24
+      },
+      {
+        "Capitulo": 4,
+        "Pregunta": 2,
+        "Pocion": 24
+      },
+      {
+        "Capitulo": 4,
+        "Pregunta": 3,
+        "Pocion": 24
+      },
+      {
+        "Capitulo": 4,
+        "Pregunta": 4,
+        "Pocion": 24
+      },
+      {
+        "Capitulo": 4,
+        "Pregunta": 5,
+        "Pocion": 24
+      }
+    ],
+    "DataCristales": [
+      {
+        "Capitulo": 1,
+        "Cristales": 500,
+        "Accion": 2
+      },
+      {
+        "Capitulo": 2,
+        "Cristales": 500,
+        "Accion": 2
+      },
+      {
+        "Capitulo": 3,
+        "Cristales": 500,
+        "Accion": 2
+      },
+      {
+        "Capitulo": 3,
+        "Cristales": 500,
+        "Accion": 3
+      },
+      {
+        "Capitulo": 4,
+        "Cristales": 500,
+        "Accion": 2
+      },
+      {
+        "Capitulo": 4,
+        "Cristales": 500,
+        "Accion": 3
+      },
+      {
+        "Capitulo": 4,
+        "Cristales": 700,
+        "Accion": 4
+      }
+    ],
+    "ExperienciaNecesaria": [ 8000, 28000, 58000, 169000 ],
+    "PaquetePociones": [
+      {
+        "Maximo": 5,
+        "CostoGemas": 100,
+        "CantidadMaterial": 20
+      },
+      {
+        "Maximo": 8,
+        "CostoGemas": 200,
+        "CantidadMaterial": 20
+      },
+      {
+        "Maximo": 999,
+        "CostoGemas": 300,
+        "CantidadMaterial": 20
+      }
+    ],
+    "PaqueteCristales": [
+      {
+        "Maximo": 4,
+        "CostoGemas": 200,
+        "CantidadMaterial": 50
+      },
+      {
+        "Maximo": 4,
+        "CostoGemas": 400,
+        "CantidadMaterial": 50
+      },
+      {
+        "Maximo": 999,
+        "CostoGemas": 600,
+        "CantidadMaterial": 50
+      }
+    ],
+    "PaqueteNutakuGold": [
+      {
+        "PrecioNutaku": 1000,
+        "Gemas": 300,
+        "CantidadMaterial": 200,
+        "NivelProduccion": 2
+      },
+      {
+        "PrecioNutaku": 3000,
+        "Gemas": 900,
+        "CantidadMaterial": 600,
+        "NivelProduccion": 3
+      },
+      {
+        "PrecioNutaku": 6000,
+        "Gemas": 1800,
+        "CantidadMaterial": 1200,
+        "NivelProduccion": 4
+      }
+    ]
+  },
+  {
+    "Version": "V2",
+    "MaximoCristalesRevival":  400,
+    "DuracionEvento": 13,
+    "InfoMaquina": [
+      {
+        "Nivel": 1,
+        "Material": 4
+      },
+      {
+        "Nivel": 2,
+        "Material": 5
+      },
+      {
+        "Nivel": 3,
+        "Material": 7
+      },
+      {
+        "Nivel": 4,
+        "Material": 9
+      }
+    ],
+    "DataExp": [
+      {
+        "Capitulo": 1,
+        "Accion": 1,
+        "Porcentaje": 0.50,
+        "Exp": 10,
+        "Pocion": 1
+      },
+      {
+        "Capitulo": 1,
+        "Accion": 2,
+        "Porcentaje": 1,
+        "Exp": 40,
+        "Pocion": 2
+      },
+      {
+        "Capitulo": 2,
+        "Accion": 1,
+        "Porcentaje": 0.50,
+        "Exp": 10,
+        "Pocion": 1
+      },
+      {
+        "Capitulo": 2,
+        "Accion": 2,
+        "Porcentaje": 1,
+        "Exp": 40,
+        "Pocion": 2
+      },
+      {
+        "Capitulo": 3,
+        "Accion": 1,
+        "Porcentaje": 0.20,
+        "Exp": 10,
+        "Pocion": 1
+      },
+      {
+        "Capitulo": 3,
+        "Accion": 2,
+        "Porcentaje": 0.60,
+        "Exp": 40,
+        "Pocion": 2
+      },
+      {
+        "Capitulo": 3,
+        "Accion": 3,
+        "Porcentaje": 1,
+        "Exp": 120,
+        "Pocion": 4
+      },
+      {
+        "Capitulo": 4,
+        "Accion": 1,
+        "Porcentaje": 0.20,
+        "Exp": 10,
+        "Pocion": 1
+      },
+      {
+        "Capitulo": 4,
+        "Accion": 2,
+        "Porcentaje": 0.50,
+        "Exp": 40,
+        "Pocion": 2
+      },
+      {
+        "Capitulo": 4,
+        "Accion": 3,
+        "Porcentaje": 0.70,
+        "Exp": 120,
+        "Pocion": 4
+      },
+      {
+        "Capitulo": 4,
+        "Accion": 4,
+        "Porcentaje": 1,
+        "Exp": 360,
+        "Pocion": 6
+      }
+    ],
+    "DataPregunta": [
+      {
+        "Capitulo": 1,
+        "Pregunta": 1,
+        "Pocion": 8
+      },
+      {
+        "Capitulo": 1,
+        "Pregunta": 2,
+        "Pocion": 8
+      },
+      {
+        "Capitulo": 2,
+        "Pregunta": 1,
+        "Pocion": 10
+      },
+      {
+        "Capitulo": 2,
+        "Pregunta": 2,
+        "Pocion": 10
+      },
+      {
+        "Capitulo": 2,
+        "Pregunta": 3,
+        "Pocion": 10
+      },
+      {
+        "Capitulo": 3,
+        "Pregunta": 1,
+        "Pocion": 10
+      },
+      {
+        "Capitulo": 3,
+        "Pregunta": 2,
+        "Pocion": 10
+      },
+      {
+        "Capitulo": 3,
+        "Pregunta": 3,
+        "Pocion": 15
+      },
+      {
+        "Capitulo": 3,
+        "Pregunta": 4,
+        "Pocion": 15
+      },
+      {
+        "Capitulo": 4,
+        "Pregunta": 1,
+        "Pocion": 20
+      },
+      {
+        "Capitulo": 4,
+        "Pregunta": 2,
+        "Pocion": 30
+      },
+      {
+        "Capitulo": 4,
+        "Pregunta": 3,
+        "Pocion": 35
+      },
+      {
+        "Capitulo": 4,
+        "Pregunta": 4,
+        "Pocion": 35
+      }
+    ],
+    "DataCristales": [
+      {
+        "Capitulo": 1,
+        "Cristales": 500,
+        "Accion": 2
+      },
+      {
+        "Capitulo": 2,
+        "Cristales": 500,
+        "Accion": 2
+      },
+      {
+        "Capitulo": 3,
+        "Cristales": 500,
+        "Accion": 2
+      },
+      {
+        "Capitulo": 3,
+        "Cristales": 500,
+        "Accion": 3
+      },
+      {
+        "Capitulo": 4,
+        "Cristales": 500,
+        "Accion": 2
+      },
+      {
+        "Capitulo": 4,
+        "Cristales": 500,
+        "Accion": 3
+      },
+      {
+        "Capitulo": 4,
+        "Cristales": 700,
+        "Accion": 4
+      }
+    ],
+    "ExperienciaNecesaria": [ 8000, 28000, 58000, 169000 ],
+    "PaquetePociones": [
+      {
+        "Maximo": 5,
+        "CostoGemas": 100,
+        "CantidadMaterial": 20
+      },
+      {
+        "Maximo": 8,
+        "CostoGemas": 200,
+        "CantidadMaterial": 20
+      },
+      {
+        "Maximo": 999,
+        "CostoGemas": 300,
+        "CantidadMaterial": 20
+      }
+    ],
+    "PaqueteCristales": [
+      {
+        "Maximo": 4,
+        "CostoGemas": 200,
+        "CantidadMaterial": 50
+      },
+      {
+        "Maximo": 4,
+        "CostoGemas": 400,
+        "CantidadMaterial": 50
+      },
+      {
+        "Maximo": 999,
+        "CostoGemas": 600,
+        "CantidadMaterial": 50
+      }
+    ],
+    "PaqueteNutakuGold": [
+      {
+        "PrecioNutaku": 1000,
+        "Gemas": 300,
+        "CantidadMaterial": 200,
+        "NivelProduccion": 2
+      },
+      {
+        "PrecioNutaku": 3000,
+        "Gemas": 900,
+        "CantidadMaterial": 600,
+        "NivelProduccion": 3
+      },
+      {
+        "PrecioNutaku": 6000,
+        "Gemas": 1800,
+        "CantidadMaterial": 1200,
+        "NivelProduccion": 4
+      }
+    ]
+
+  }
+]

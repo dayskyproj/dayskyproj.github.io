@@ -1,12 +1,13 @@
 ﻿using Microsoft.AspNetCore.Components;
 using ProjectQT.Componentes.Tabs;
+using ProjectQT.Data.DataDating;
+using ProjectQT.Data.DataQuizDimensional;
 
-namespace ProjectQT.Componentes.HorariosNiveles
+namespace ProjectQT.Componentes.Horarios.Dating
 {
-    public class HorarioNivelesBase : ComponentBase
+    public class HorarioCapituloDatingBase : ComponentBase
     {
-        [Parameter]
-        public List<DateTime> Tiempos { get; set; } = new();
+    
 
         [Parameter]
         public List<string> Titulos { get; set; } = new();
@@ -15,8 +16,9 @@ namespace ProjectQT.Componentes.HorariosNiveles
 
         public List<Tab> Tabs { get; set; } = new();
 
+
         [Parameter]
-        public List<string> NotaDelNivel { get; set; } = new();
+        public List<GuiaCapituloDating> Tiempos { get; set; } = new();
 
 
         [Parameter]
@@ -39,12 +41,14 @@ namespace ProjectQT.Componentes.HorariosNiveles
 
         public void ActualizarFinal()
         {
-
-
-            if (Tabs[0].Titulo != null)
+            if (Tabs.Count > 0) 
             {
-                TabsSet.CambiarTab(Tabs[0]);
+                if (Tabs[0].Titulo != null)
+                {
+                    TabsSet.CambiarTab(Tabs[0]);
+                }
             }
+           
 
         }
 

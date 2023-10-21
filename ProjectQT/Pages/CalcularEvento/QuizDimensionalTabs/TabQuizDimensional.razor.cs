@@ -1,11 +1,13 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
-using ProjectQT.Componentes.HorariosNiveles;
+using ProjectQT.Componentes.Horarios.QuizDimensional;
 using ProjectQT.Componentes.Sweetalert2;
-using ProjectQT.Componentes.Tabs;
 using ProjectQT.Componentes.VentanaModal;
 using ProjectQT.Data;
 using ProjectQT.Data.DataQuizDimensional;
+using ProjectQT.ReadJson;
+using System;
+
 
 namespace ProjectQT.Pages.CalcularEvento.QuizDimensionalTabs
 {
@@ -14,10 +16,9 @@ namespace ProjectQT.Pages.CalcularEvento.QuizDimensionalTabs
 
         #region Tiempo
 
-        public DateTime FechaInicial { get; set; } = new DateTime(2023, 8, 2, 4, 0, 0);
+        public DateTime FechaInicial { get; set; } = new DateTime(2023, 10, 13, 4, 0, 0);
         public DateTime FinalizarEvento { get; set; }
-        public DateTime FechaActual { get; set; } = new DateTime(2023, 8, 2, 4, 0, 0);
-        public List<DateTime> FechasNiveles { get; set; } = new();
+        public DateTime FechaActual { get; set; } = new DateTime(2023, 10, 13, 4, 0, 0);
 
         public TimeSpan TiempoFinales { get; set; } = TimeSpan.Zero;
 
@@ -99,6 +100,7 @@ namespace ProjectQT.Pages.CalcularEvento.QuizDimensionalTabs
 
         #region input Exp
         public int ExpActual { get; set; } = 0;
+        public int ExpFinal { get; set; } = 0;
         public string MinimoExp { get; set; } = "0";
         public string MaximoExp { get; set; } = "1000";
         public bool ActivarExp { get; set; } = true;
@@ -189,25 +191,52 @@ namespace ProjectQT.Pages.CalcularEvento.QuizDimensionalTabs
         #endregion
 
         #region otros
-        public InfoQuizDimensional InfoEvento { get; set; } = new();
+        public InfoQuizDimensional InfoEvento { get; set; }
         public int MentasActual { get; set; } = 0;
+        public int MentasFinal { get; set; } = 0;
+        public int MentasPaquete { get; set; } = 0;
 
         [Inject]
         IJSRuntime JSRuntime { get; set; }
+
 
         public List<string> Collapsable { get; set; } = new() { "", "", "" };
         public List<string> CollapsableIcono { get; set; } = new() 
         { "fas fa-caret-left", "fas fa-caret-left", "fas fa-caret-left" };
 
-        public HorarioNivelesBase Horario { get; set; } = new();
+        public HorarioNivelesQuizDimensionalBase Horario { get; set; } = new();
+
+        public List<GuiaPreguntaTiempoDimensional> GuiaPregunta { get; set; } = new();
+
+        [Inject]
+        public IJsonApi JsonApi { get; set; }
+
+
+        #endregion
+
+        #region version
+
+        public List<OpcionesSelect> OpcionesVersiones { get; set; } = new() {
+            new()
+            {
+                Valor = "V1", Descripcion = "Versión 1"
+            },
+            new()
+            {
+                Valor = "V2", Descripcion = "Versión 2"
+            }
+        };
+        public string OpcionVersion { get; set; } = "V2";
+
         #endregion
 
 
-        protected override void OnInitialized()
+        protected override async Task OnInitializedAsync()
         {
 
-            FinalizarEvento = FechaInicial.AddDays(InfoEvento.DuracionEvento);
+            InfoEvento = await JsonApi.JsonQuizDimensional("V2");
 
+            FinalizarEvento = FechaInicial.AddDays(InfoEvento.DuracionEvento);
 
             TitulosModales = InfoEvento.PaqueteMentas.Select(x => $"Gemas: {x.CostoGemas}").ToList();
 
@@ -217,9 +246,12 @@ namespace ProjectQT.Pages.CalcularEvento.QuizDimensionalTabs
             MaximoRegalosPrevio = InfoEvento.PaqueteRegalos.Select(x => x.Maximo).ToList();
             MaximoRegalosActual = InfoEvento.PaqueteRegalos.Select(x => x.Maximo).ToList();
 
-
+            ExpFinal = 1000;
+            MentasFinal = 48;
+            await Calcular();
 
         }
+
 
         public void ActualizarCollapsable(int index)
         {
@@ -261,10 +293,127 @@ namespace ProjectQT.Pages.CalcularEvento.QuizDimensionalTabs
         }
 
 
+        public void ActualizarExp(ChangeEventArgs e)
+        {
+            try
+            {
+                int valor = Convert.ToInt32(e.Value);
+                CalculoExp(valor);
 
 
+            }
+            catch (Exception ex) 
+            {
+                Console.WriteLine("ingreso una letra");
+            }
+            
+        }
+
+        public void ActualizarMentas(ChangeEventArgs e)
+        {
+            try
+            {
+                int valor = Convert.ToInt32(e.Value);
+
+                CalculoMentas(valor);
+            }
+
+            catch (Exception ex)
+            {
+                Console.WriteLine("ingreso una letra");
+            }
+
+            StateHasChanged();
+        }
+
+        public void CalculoMentas(int mentas) 
+        {
+            for (int i = 0; i < 3; i++)
+            {
+
+                if (i == 0)
+                {
+                    MentasFinal = mentas + CompraMentasActual[i] * InfoEvento.PaqueteMentas[i].CantidadMaterial;
+                }
+                else
+                {
+                    MentasFinal += CompraMentasActual[i] * InfoEvento.PaqueteMentas[i].CantidadMaterial;
+
+                }
+            }
+
+            if (OpcionPaqueteNutakuActual != "")
+            {
+
+                int opcion = Convert.ToInt32(OpcionPaqueteNutakuActual);
+
+
+                if (OpcionPaqueteNutakuPrevio == "")
+                {
+                    MentasFinal += InfoEvento.PaqueteNutakuGold
+                        .Where(x => x.NivelProduccion - 1 <= opcion)
+                        .Sum(x => x.CantidadMaterial);
+                }
+                else
+                {
+
+                    int opcionPrevio = Convert.ToInt32(OpcionPaqueteNutakuPrevio);
+
+                    int mentasPrevias = InfoEvento.PaqueteNutakuGold
+                                    .Where(x => x.NivelProduccion - 1 <= opcionPrevio)
+                                    .Sum(x => x.CantidadMaterial);
+
+
+                    MentasFinal += InfoEvento.PaqueteNutakuGold
+                                    .Where(x => x.NivelProduccion - 1 <= opcion)
+                                    .Sum(x => x.CantidadMaterial) - mentasPrevias;
+                }
+
+            }      
+        }
+
+        public void CalculoExp(int exp)
+        {
+            for (int i = 0; i < 4; i++)
+            {
+
+                if (i == 0)
+                {
+                    ExpFinal = exp + CompraRegalosActual[i] * InfoEvento.PaqueteRegalos[i].CantidadMaterial;
+                }
+                else
+                {
+                    ExpFinal += CompraRegalosActual[i] * InfoEvento.PaqueteRegalos[i].CantidadMaterial;
+
+                }
+            }
+
+            StateHasChanged();
+        }
 
         #region metodos selects
+
+
+        public async Task ActualizarVersion(string valorS)
+        {
+            OpcionVersion = valorS;
+
+            if (OpcionVersion == "V1")
+            {
+
+                InfoEvento = await JsonApi.JsonQuizDimensional("V1");
+
+            }
+            else 
+            {
+                InfoEvento = await JsonApi.JsonQuizDimensional("V2");
+
+
+            }
+            FinalizarEvento = FechaActual.AddDays(InfoEvento.DuracionEvento);
+            await Calcular();
+
+        }
 
         public void ActualizarNumeroPreguntas(string ValorS)
         {
@@ -277,12 +426,16 @@ namespace ProjectQT.Pages.CalcularEvento.QuizDimensionalTabs
                 OpcionesPregunta = new();
                 ActivarSelectPregunta = false;
                 ActivarExp = true;
-                ExpActual = 0;
+                ExpActual = 1000;
+                ExpFinal = 1000;
                 MinimoExp = "0";
                 MaximoExp = "1000";
+                MentasFinal = 48;
             }
             else
             {
+                MentasFinal = 0;
+
                 OpcionesPregunta = (from x in InfoEvento.DataExp
                                     where x.Nivel == pregunta
                                     select new OpcionesSelect
@@ -293,6 +446,7 @@ namespace ProjectQT.Pages.CalcularEvento.QuizDimensionalTabs
                                     }).ToList();
 
                 ExpActual = InfoEvento.ExperienciaNecesaria[pregunta - 1] + InfoEvento.ExpSubidaNivel;
+                ExpFinal = InfoEvento.ExperienciaNecesaria[pregunta - 1] + InfoEvento.ExpSubidaNivel;
 
                 MinimoExp = InfoEvento.ExperienciaNecesaria[pregunta - 1].ToString();
 
@@ -316,10 +470,12 @@ namespace ProjectQT.Pages.CalcularEvento.QuizDimensionalTabs
             for (int i = 0; i < 4; i++)
             {
 
-                ExpActual += CompraRegalosActual[i] * InfoEvento.PaqueteRegalos[i].CantidadMaterial;
+                ExpFinal = ExpActual + CompraRegalosActual[i] * InfoEvento.PaqueteRegalos[i].CantidadMaterial;
                 GastosGemasActual += InfoEvento.PaqueteRegalos[i].CostoGemas * CompraRegalosActual[i];
 
             }
+
+            CalculoMentas(MentasFinal);
 
             StateHasChanged();
 
@@ -335,6 +491,8 @@ namespace ProjectQT.Pages.CalcularEvento.QuizDimensionalTabs
             GemasObtenidasPaqueteP2WPrevio = 0;
             GemasObtenidasPaqueteP2WActual = 0;
             TotalGemasObtenidas = 0;
+            MentasFinal -= MentasPaquete;
+            MentasPaquete = 0;
 
             if (ValorS == "")
             {
@@ -354,13 +512,11 @@ namespace ProjectQT.Pages.CalcularEvento.QuizDimensionalTabs
                 {
                     GemasObtenidasPaqueteP2WPrevio += InfoEvento.PaqueteNutakuGold[i].Gemas;
                 }
-
             }
 
             TotalGemasObtenidas = GemasObtenidasPaqueteP2WPrevio;
 
-
-
+         
         }
 
         public void ActualizarGemasSelectActual(string valorS)
@@ -379,9 +535,52 @@ namespace ProjectQT.Pages.CalcularEvento.QuizDimensionalTabs
                 {
                     GemasObtenidasPaqueteP2WActual += InfoEvento.PaqueteNutakuGold[i].Gemas;
                 }
+
+                int opcion = Convert.ToInt32(valorS);
+
+                if (OpcionPaqueteNutakuPrevio == "")
+                {
+
+
+                    MentasFinal += InfoEvento.PaqueteNutakuGold
+                                    .Where(x => x.NivelProduccion - 1 <= opcion)
+                                    .Sum(x => x.CantidadMaterial) - MentasPaquete;
+
+
+                    MentasPaquete = InfoEvento.PaqueteNutakuGold
+                                    .Where(x => x.NivelProduccion - 1 <= opcion)
+                                    .Sum(x => x.CantidadMaterial);
+
+                }
+                else
+                {
+                    int opcionPrevio = Convert.ToInt32(OpcionPaqueteNutakuPrevio);
+
+                    int mentasPrevias = InfoEvento.PaqueteNutakuGold
+                                    .Where(x => x.NivelProduccion - 1 <= opcionPrevio)
+                                    .Sum(x => x.CantidadMaterial);
+
+
+                    MentasFinal += InfoEvento.PaqueteNutakuGold
+                                    .Where(x => x.NivelProduccion - 1 <= opcion)
+                                    .Sum(x => x.CantidadMaterial) - mentasPrevias - MentasPaquete;
+
+                    MentasPaquete = InfoEvento.PaqueteNutakuGold
+                                    .Where(x => x.NivelProduccion - 1 <= opcion)
+                                    .Sum(x => x.CantidadMaterial) - mentasPrevias;
+
+                }
+
+            }
+
+            else 
+            {
+                MentasFinal -= MentasPaquete;
+                MentasPaquete = 0;
             }
 
             TotalGemasObtenidas = GemasObtenidasPaqueteP2WActual + GemasObtenidasPaqueteP2WPrevio;
+            
 
         }
 
@@ -424,6 +623,7 @@ namespace ProjectQT.Pages.CalcularEvento.QuizDimensionalTabs
                 {
                     MaximoMentasActual[i] = MaximoMentasActual[i] - CompraMentasPrevio[i];
                     GastosGemasPrevio += InfoEvento.PaqueteMentas[i].CostoGemas * CompraMentasPrevio[i];
+
                 }
 
 
@@ -437,6 +637,9 @@ namespace ProjectQT.Pages.CalcularEvento.QuizDimensionalTabs
             CompraRegalosPrevioOriginal = CompraRegalosPrevio.GetRange(0, CompraRegalosPrevio.Count);
 
             TotalGemasGastadas = GastosGemasPrevio;
+
+            CalculoMentas(OpcionNivel == "" ? 48 : MentasActual);
+            CalculoExp(OpcionNivel == "" ? 1000 : ExpActual);
 
         }
 
@@ -463,15 +666,45 @@ namespace ProjectQT.Pages.CalcularEvento.QuizDimensionalTabs
                 if (i < 3)
                 {
 
-                    MentasActual += (CompraMentasActual[i] - CompraMentasActualOriginal[i]) * InfoEvento.PaqueteMentas[i].CantidadMaterial;
+                    if (i == 0)
+                    {
+                        if (OpcionNivel == "") 
+                        {
+                            MentasFinal = 48 + CompraMentasActual[i] * InfoEvento.PaqueteMentas[i].CantidadMaterial;
+
+                        }
+                        else
+                        {
+                            MentasFinal = MentasActual + CompraMentasActual[i] * InfoEvento.PaqueteMentas[i].CantidadMaterial;
+
+                        }
+
+                    }
+
+                    else 
+                    {
+                        MentasFinal += CompraMentasActual[i] * InfoEvento.PaqueteMentas[i].CantidadMaterial;
+
+                    }
+
                     GastosGemasActual += InfoEvento.PaqueteMentas[i].CostoGemas * CompraMentasActual[i];
 
 
                 }
 
-                ExpActual += (CompraRegalosActual[i] - CompraRegalosActualOriginal[i]) * InfoEvento.PaqueteRegalos[i].CantidadMaterial;
-                GastosGemasActual += InfoEvento.PaqueteRegalos[i].CostoGemas * CompraRegalosActual[i];
+                if (i == 0 )
+                {
 
+                    ExpFinal = ExpActual + CompraRegalosActual[i]  * InfoEvento.PaqueteRegalos[i].CantidadMaterial;
+                }
+                else 
+                {
+                    ExpFinal +=  CompraRegalosActual[i] * InfoEvento.PaqueteRegalos[i].CantidadMaterial;
+        
+
+                }
+
+                GastosGemasActual += InfoEvento.PaqueteRegalos[i].CostoGemas * CompraRegalosActual[i];
 
 
             }
@@ -482,6 +715,37 @@ namespace ProjectQT.Pages.CalcularEvento.QuizDimensionalTabs
 
 
             TotalGemasGastadas = GastosGemasActual + GastosGemasPrevio;
+
+            if (OpcionPaqueteNutakuActual != "")
+            {
+
+                int opcion = Convert.ToInt32(OpcionPaqueteNutakuActual);
+
+
+                if (OpcionPaqueteNutakuPrevio == "")
+                {
+                    MentasFinal += InfoEvento.PaqueteNutakuGold
+                        .Where(x => x.NivelProduccion - 1 <= opcion)
+                        .Sum(x => x.CantidadMaterial);
+                }
+                else
+                {
+
+                    int opcionPrevio = Convert.ToInt32(OpcionPaqueteNutakuPrevio);
+
+                    int mentasPrevias = InfoEvento.PaqueteNutakuGold
+                                    .Where(x => x.NivelProduccion - 1 <= opcionPrevio)
+                                    .Sum(x => x.CantidadMaterial);
+
+
+                    MentasFinal += InfoEvento.PaqueteNutakuGold
+                                    .Where(x => x.NivelProduccion - 1 <= opcion)
+                                    .Sum(x => x.CantidadMaterial) - mentasPrevias;
+
+
+                }
+
+            }
 
 
         }
@@ -497,16 +761,16 @@ namespace ProjectQT.Pages.CalcularEvento.QuizDimensionalTabs
         #endregion
 
 
-
-
-        public async void Calcular()
+        public async Task Calcular()
         {
 
-            FechasNiveles = new();
+            GuiaPregunta = new();
             TitulosNiveles = new();
             NotaDelNivel = new();
             int nivel = OpcionNivel == "" ? 1 : Convert.ToInt32(OpcionNivel);
             DateTime fecha = FechaActual;
+
+         
 
             if (FechaActual < FechaInicial) 
             {
@@ -537,12 +801,12 @@ namespace ProjectQT.Pages.CalcularEvento.QuizDimensionalTabs
             {
                
                 int pregunta = OpcionPregunta == "" ? 1 : Convert.ToInt32(OpcionPregunta);
-                int exp = OpcionNivel == "" ? 1000 + InfoEvento.ExpSubidaNivel + ExpActual : ExpActual;
+                int exp = OpcionNivel == "" ? InfoEvento.ExpSubidaNivel + ExpFinal : ExpFinal;
 
                 int nivelMaquina = 1;
 
-                int mentas = OpcionNivel == "" ? 48 + MentasActual : MentasActual;
-
+                int mentas = MentasFinal;
+           
                 int horaResets = FechaInicial.Hour;
 
                 if (OpcionPaqueteNutakuActual != "")
@@ -552,24 +816,7 @@ namespace ProjectQT.Pages.CalcularEvento.QuizDimensionalTabs
 
                     nivelMaquina = InfoEvento.PaqueteNutakuGold
                                 .Where(x => x.NivelProduccion - 1 == opcion)
-                                .Select(x => x.NivelProduccion).FirstOrDefault();
-
-                    if (OpcionPaqueteNutakuPrevio == "")
-                    {
-                        mentas += InfoEvento.PaqueteNutakuGold
-                            .Where(x => x.NivelProduccion - 1 <= opcion)
-                            .Sum(x => x.CantidadMaterial);
-                    }
-                    else
-                    {
-                        int opcionPrevio = Convert.ToInt32(OpcionPaqueteNutakuPrevio);
-
-                        mentas += InfoEvento.PaqueteNutakuGold
-                            .Where(x => x.NivelProduccion - 1 <= opcion &&
-                                        opcionPrevio != x.NivelProduccion - 1)
-                            .Sum(x => x.CantidadMaterial);
-
-                    }
+                                .Select(x => x.NivelProduccion).FirstOrDefault();               
 
                 }
 
@@ -581,9 +828,6 @@ namespace ProjectQT.Pages.CalcularEvento.QuizDimensionalTabs
                                 .Where(x => x.NivelProduccion - 1 == opcion)
                                 .Select(x => x.NivelProduccion).FirstOrDefault();
                 }
-
-
-             
 
                 DateTime fechaReset = new DateTime(FechaActual.Year, FechaActual.Month, FechaActual.Day,
                                               horaResets, 0, 0);
@@ -617,7 +861,6 @@ namespace ProjectQT.Pages.CalcularEvento.QuizDimensionalTabs
                     {
                         pregunta = 1;
                         exp += InfoEvento.ExpSubidaNivel;
-                        FechasNiveles.Add(fecha);
                         TitulosNiveles.Add($"Nivel {i}");
                     }
                     else 
@@ -647,7 +890,21 @@ namespace ProjectQT.Pages.CalcularEvento.QuizDimensionalTabs
                                     diferenciaTiemposRecorrido.TotalMinutes <= 240))
                                 {
 
+                                    GuiaPregunta.Add(new()
+                                    {
+                                        Day = fechaActual.Day,
+                                        Month = fechaActual.Month,
+                                        Hour = fechaActual.Hour,
+                                        Minute = fechaActual.Minute,
+                                        Nivel = $"Nivel {i}",
+                                        Exp = exp + InfoEvento.ExpDiario,
+                                        Pregunta = "Reset",
+                                        Mentas = mentas
+
+                                    });
+
                                     exp += InfoEvento.ExpSubidaNivel + InfoEvento.ExpDiario;
+
                                     mentas = mentasActuales;
                                     
                                     fecha = fechaReset;
@@ -661,8 +918,8 @@ namespace ProjectQT.Pages.CalcularEvento.QuizDimensionalTabs
 
                                     pregunta = 1;
 
-                                    FechasNiveles.Add(fecha);
                                     TitulosNiveles.Add($"Nivel {i}");
+                             
 
                                     NotaDelNivel.Add($"<h1> Ojo: Esta nota solo se activa cuando el tiempo para el siguiente reset en inferior a 4 horas" +
                                                     $"</h1> " +
@@ -678,6 +935,7 @@ namespace ProjectQT.Pages.CalcularEvento.QuizDimensionalTabs
 
                                     exp += dataEXP[y].Exp;
 
+                                    
 
                                     if (fecha.Month == fechaReset.Month && fecha.Year == fechaReset.Year &&
                                         fecha.Day == fechaReset.Day && fecha.Hour >= horaResets &&
@@ -706,11 +964,36 @@ namespace ProjectQT.Pages.CalcularEvento.QuizDimensionalTabs
                                     {
                                         pregunta = 1;
                                         exp += InfoEvento.ExpSubidaNivel;
-                                        FechasNiveles.Add(fecha);
                                         TitulosNiveles.Add($"Nivel {i}");
                                         NotaDelNivel.Add("");
+
+                                        GuiaPregunta.Add(new()
+                                        {
+                                            Day = fecha.Day,
+                                            Month = fecha.Month,
+                                            Hour = fecha.Hour,
+                                            Minute = fecha.Minute,
+                                            Nivel = $"Nivel {i}",
+                                            Exp = exp,
+                                            Pregunta = dataEXP[y].Pregunta.ToString(),
+                                            Mentas = mentas
+
+                                        });
+
                                         break;
                                     }
+
+                                    GuiaPregunta.Add(new()
+                                    {
+                                        Day = fecha.Day,
+                                        Month = fecha.Month,
+                                        Hour = fecha.Hour,
+                                        Minute = fecha.Minute,
+                                        Nivel = $"Nivel {i}",
+                                        Exp = exp,
+                                        Pregunta = dataEXP[y].Pregunta.ToString()
+
+                                    });
                                 }
                                 
                             }
@@ -722,17 +1005,28 @@ namespace ProjectQT.Pages.CalcularEvento.QuizDimensionalTabs
 
                                 bool subidaNivel = exp >= expNecesaria;
 
+                                GuiaPregunta.Add(new()
+                                {
+                                    Day = fecha.Day,
+                                    Month = fecha.Month,
+                                    Hour = fecha.Hour,
+                                    Minute = fecha.Minute,
+                                    Nivel = $"Nivel {i}",
+                                    Exp = exp,
+                                    Pregunta = dataEXP[y].Pregunta.ToString()
+
+                                });
+
+
                                 if (subidaNivel)
                                 {
                                     pregunta = 1;
                                     exp += InfoEvento.ExpSubidaNivel;
-                                    FechasNiveles.Add(fecha);
                                     TitulosNiveles.Add($"Nivel {i}");
                                     NotaDelNivel.Add("");
 
-
                                 }
-
+                   
                             }
 
                         }
@@ -741,6 +1035,18 @@ namespace ProjectQT.Pages.CalcularEvento.QuizDimensionalTabs
                     
 
                     pregunta = 1;
+                    GuiaPregunta.Add(new()
+                    {
+                        Day = fecha.Day,
+                        Month = fecha.Month,
+                        Hour = fecha.Hour,
+                        Minute = fecha.Minute,
+                        Nivel = $"Nivel {i+1}",
+                        Exp = exp,
+                        Pregunta = "0",
+                        Mentas = mentas
+
+                    });
 
                 }
 

@@ -1,0 +1,282 @@
+﻿@inherits ComprasDatingBase
+
+<div class="col-sm-4">
+    <button class="btn btn-primary" @onclick="() => ModalPociones.Open()">Registrar Pociones</button>
+</div>
+
+
+<div class="col-sm-4">
+    <button class="btn btn-primary" @onclick="() =>  ModalCristales.Open()">Registrar Cristales</button>
+</div>
+
+
+@if (TituloVentanas.Count != 0 && TitulosPociones.Count != 0 && TitulosCristales.Count != 0)
+
+{
+
+    <VentanaModal @ref="ModalPociones" CerrarModal="(async() => await NoActualizarActualesPociones.InvokeAsync())">
+
+        <Title> @TituloVentanas[1] </Title>
+
+        <Body>
+
+            <div class="row">
+
+                <div class="col-sm-6 col-md-6 col-lg-4">
+
+                    <CardBootstrap Titulo="@TitulosPociones[0]">
+
+                        <Cuerpo>
+
+                            <div class="form-group">
+
+                                <img src="Imagenes/Pociones X20.png" class="rounded mx-auto d-block">
+
+                                <input type="number" class="form-control" id="Precio1Previo"
+                                       min="0" max="@MaximoPociones[0].ToString()"
+                                @bind="@CompraPociones[0]" style="margin: 15px 0px">
+
+                                <label> Máximo: @MaximoPociones[0].ToString() </label>
+
+                            </div>
+
+                        </Cuerpo>
+
+                    </CardBootstrap>
+
+                </div>
+
+                <div class="col-sm-6 col-md-6 col-lg-4">
+
+                    <CardBootstrap Titulo="@TitulosPociones[1]">
+
+                        <Cuerpo>
+
+                            <div class="form-group">
+
+                                <img src="Imagenes/Pociones X20.png" class="rounded mx-auto d-block">
+
+                                <input type="number" class="form-control" id="Precio2Previo"
+                                       min="0" max="@MaximoPociones[1].ToString()"
+                                    @bind="@CompraPociones[1]" style="margin: 15px 0px">
+
+                                <label> Máximo: @MaximoPociones[1].ToString() </label>
+
+                            </div>
+
+                        </Cuerpo>
+
+                    </CardBootstrap>
+
+                </div>
+
+                <div class="col-sm-6 col-md-6 col-lg-4">
+
+                    <CardBootstrap Titulo="@TitulosPociones[2]">
+
+
+                        <Cuerpo>
+
+                            <div class="form-group">
+
+                                <img src="Imagenes/Pociones X20.png" class="rounded mx-auto d-block">
+
+                                <input type="number" class="form-control" id="Precio3Previo"
+                                       min="0" max="@MaximoPociones[2].ToString()"
+                                @bind="@CompraPociones[2]" style="margin: 15px 0px">
+
+                                <label> Máximo: @MaximoPociones[2].ToString() </label>
+
+                            </div>
+
+
+                        </Cuerpo>
+
+                    </CardBootstrap>
+
+                </div>
+
+
+            </div>
+
+        </Body>
+
+        <Footer>
+
+            <button type="button" class="btn btn-primary"
+                @onclick="(async() => await ActualizarMentas())">
+                Guardar
+            </button>
+
+            <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                @onclick="CerrarPociones">
+                Cerrar
+            </button>
+
+        </Footer>
+    </VentanaModal>
+
+
+    <VentanaModal @ref="ModalCristales" CerrarModal="CerrarCristales"
+                  Id="@("ModalCristales"+@Tipo)">
+
+        <Title> @TituloVentanas[0] </Title>
+
+        <Body>
+
+            <div class="row">
+
+                @if (Capitulo <= 1)
+                {
+                    <div class="col-sm-6 col-md-6 col-lg-6">
+
+                        <CardBootstrap Titulo="@TitulosCristales[0]">
+
+                            <Cuerpo>
+
+                                <div class="form-group">
+
+                                    <label for="@("pregunta"+@Tipo+"1")">
+                                        compraste cristales
+                                    </label>
+
+
+                                    <Selected2 ValorPorDefecto="@OpcionCristales[0]" EnviarOpcion="AnalisisCristal1"
+                                               OpcionesSelect="Seleccion" PlaceHolder="Seleccione una opción"
+                                               Id="@("pregunta"+@Tipo+"1")" IdModal="@("ModalCristales"+@Tipo)"
+                                               Activar="@ActivarOpcionesCristales[0]"/>
+
+                                    <label for="gemasGastadas1">
+                                        Gemas Usadas: @GemasGastadas[0]
+                                    </label>
+
+                                </div>
+
+                            </Cuerpo>
+
+                        </CardBootstrap>
+
+                    </div>
+                }
+
+                @if (Capitulo <= 2)
+                {
+                    <div class="col-sm-6 col-md-6 col-lg-6">
+
+                        <CardBootstrap Titulo="@TitulosCristales[1]">
+
+                            <Cuerpo>
+
+                                <div class="form-group">
+
+                                    <label for="@("pregunta"+@Tipo+"2")">
+                                        compraste cristales
+                                    </label>
+
+
+                                    <Selected2 ValorPorDefecto="@OpcionCristales[1]" EnviarOpcion="AnalisisCristal2"
+                                               OpcionesSelect="Seleccion" PlaceHolder="Seleccione una opción"
+                                               Id="@("pregunta"+@Tipo+"2")" IdModal="@("ModalCristales"+@Tipo)"
+                                               Activar="@ActivarOpcionesCristales[1]" />
+
+                                    <label for="gemasGastadas2">
+                                        Gemas Usadas: @GemasGastadas[1]       
+                                    </label>
+
+                                </div>
+
+                            </Cuerpo>
+
+                        </CardBootstrap>
+
+                    </div>
+                }
+
+                @if (Capitulo <= 3)
+                {
+                    <div class="col-sm-6 col-md-6 col-lg-6">
+
+                        <CardBootstrap Titulo="@TitulosCristales[2]">
+
+                            <Cuerpo>
+
+                                <div class="form-group">
+
+                                    <label for="@("pregunta"+@Tipo+"3")">
+                                        Comando que compraste
+                                    </label>
+
+
+                                    <Selected2 ValorPorDefecto="@OpcionCristales[2]" EnviarOpcion="AnalisisCristal3"
+                                               OpcionesSelect="SeleccionComando1" PlaceHolder="Seleccione una opción"
+                                               Id="@("pregunta"+@Tipo+"3")" IdModal="@("ModalCristales"+@Tipo)"
+                                               Activar="@ActivarOpcionesCristales[2]" />
+
+                                    <label for="gemasGastadas4">
+                                        Gemas Usadas: @GemasGastadas[2]
+                                    </label>
+
+                                </div>
+
+                            </Cuerpo>
+
+                        </CardBootstrap>
+
+                    </div>
+                }
+
+                @if (Capitulo <= 4)
+                {
+                    <div class="col-sm-6 col-md-6 col-lg-6">
+
+                        <CardBootstrap Titulo="@TitulosCristales[3]">
+
+                            <Cuerpo>
+
+                                <div class="form-group">
+
+                                    <label for="@("pregunta"+@Tipo+"4")">
+                                        Comando que compraste
+                                    </label>
+
+
+                                    <Selected2 ValorPorDefecto="@OpcionCristales[3]" EnviarOpcion="AnalisisCristal4"
+                                               OpcionesSelect="SeleccionComando2" PlaceHolder="Seleccione una opción"
+                                               Id="@("pregunta"+@Tipo+"4")" 
+                                               IdModal="@("ModalCristales"+@Tipo)"
+                                               Activar="@ActivarOpcionesCristales[3]" />
+
+
+                                    <label for="gemasGastadas4">
+                                        Gemas Usadas: @GemasGastadas[3]
+                                    </label>
+
+                                </div>
+
+                            </Cuerpo>
+
+                        </CardBootstrap>
+
+                    </div>
+                }
+
+              
+            </div>
+
+        </Body>
+
+        <Footer>
+
+            <button type="button" class="btn btn-primary"
+            @onclick="(async() => await ActualizarCristales())">
+                Guardar
+            </button>
+
+            <button type="button" class="btn btn-secondary" data-dismiss="modal"
+            @onclick="CerrarCristales">
+                Cerrar
+            </button>
+
+        </Footer>
+    </VentanaModal>
+}

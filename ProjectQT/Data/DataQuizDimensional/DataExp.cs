@@ -1,4 +1,4 @@
-﻿namespace ProjectQT.Data
+﻿namespace ProjectQT.Data.DataQuizDimensional
 {
     public class DataExp
     {

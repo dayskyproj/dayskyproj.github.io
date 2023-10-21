@@ -3,7 +3,7 @@
 @inject IJSRuntime JSRuntime
 
 <select class="select2 form-control-plaintext @ClaseSelect"
-        lang="es" id="@Id"
+        lang="es" id="@Id" 
         placeholder >
 
     @if (ListaMostrar.Count == 0)
@@ -55,6 +55,9 @@
     public bool OcultarSelect { get; set; } = false;
     public bool OcultarSelectActual { get; set; } = false;
 
+    [Parameter]
+    public string IdModal { get; set; } = "";
+
     protected override void OnInitialized()
     {
 
@@ -77,7 +80,7 @@
             }
             else
             {
-                await JSRuntime.InvokeAsync<object>("select2Blazor", DotNetObjectReference.Create(this), "OnSelectedValue", $"#{Id}", !Activar, ValorPorDefecto);
+                await JSRuntime.InvokeAsync<object>("select2Blazor", DotNetObjectReference.Create(this), "OnSelectedValue", $"#{Id}", !Activar, ValorPorDefecto, IdModal);
 
                 if (OcultarSelect)
                 {
@@ -93,7 +96,7 @@
             PlaceHolderActual = PlaceHolder;
             ActivarActual = Activar;
             ListaMostrar = OpcionesSelect;
-            await JSRuntime.InvokeVoidAsync("select2ActualizarOptions", $"#{Id}", !Activar, ValorPorDefecto);
+            await JSRuntime.InvokeVoidAsync("select2ActualizarOptions", $"#{Id}", !Activar, ValorPorDefecto, IdModal);
             StateHasChanged();
         }
 

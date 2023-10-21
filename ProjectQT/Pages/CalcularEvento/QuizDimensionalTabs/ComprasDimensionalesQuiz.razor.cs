@@ -13,6 +13,7 @@ namespace ProjectQT.Pages.CalcularEvento.QuizDimensionalTabs
         public List<string> TitulosMentas { get; set; } = new();
         public List<string> TitulosRegalos { get; set; } = new();
 
+        [Parameter]
         public InfoQuizDimensional InfoEvento { get; set; } = new();
 
 
@@ -47,7 +48,14 @@ namespace ProjectQT.Pages.CalcularEvento.QuizDimensionalTabs
 
         }
 
-        public async Task ActualizarMentas() {
+        public async Task ActualizarMentas() 
+        {
+
+            for (var i = 0; i < CompraMentas.Count; i++) 
+            {
+                CompraMentas[i] = MaximoMentas[i] >= CompraMentas[i] ? CompraMentas[i] : 0;
+            }        
+
             await ActualizarActuales.InvokeAsync();
             ModalMentas.Close();
 
@@ -55,6 +63,12 @@ namespace ProjectQT.Pages.CalcularEvento.QuizDimensionalTabs
 
         public async Task ActualizarRegalos()
         {
+
+            for (var i = 0; i < CompraRegalos.Count; i++)
+            {
+                CompraRegalos[i] = MaximoRegalos[i] >= CompraRegalos[i] ? CompraRegalos[i] : 0;
+            }
+
             await ActualizarActuales.InvokeAsync();
             ModalJRegalos.Close();
 
