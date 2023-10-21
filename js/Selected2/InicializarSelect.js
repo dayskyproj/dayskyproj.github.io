@@ -4,13 +4,16 @@ if (!window.select2Blazor) {
 
 var guardarId = "";
 
-window.select2Blazor = (dotnetHelper, callbackMethodName, pickerElementName, desactivar, valor) => {
+window.select2Blazor = (dotnetHelper, callbackMethodName, pickerElementName, desactivar, valor, modal = "") => {
 
     // initialize the specified picker element
     $(pickerElementName).select2.defaults.set('language', 'es'),
         $(pickerElementName).select2();
         $(pickerElementName).prop("disabled", desactivar),
         $(pickerElementName).val(valor).trigger('change'),
+
+
+
 
     // setup event to push the selected dropdown value back to c# code
     $(pickerElementName).on('select2:select', function (e, clickedIndex, isSelected, previousValue) {
@@ -19,14 +22,25 @@ window.select2Blazor = (dotnetHelper, callbackMethodName, pickerElementName, des
         dotnetHelper.invokeMethodAsync(callbackMethodName, $(pickerElementName).val());
     })
 
-    $(pickerElementName).select2({
-        width: '100%'
-    });
+    if (modal == "") {
+        $(pickerElementName).select2({
+            width: '100%'
+        });
+    }
+    else
+    {
+        $(pickerElementName).select2({
+            width: '100%',
+            dropdownParent: $('#' + modal + " .modal-body")
+        });
+    }
+
+   
  
 }
 
 
-window.select2ActualizarOptions = (pickerElementName, desactivar, valor) => {
+window.select2ActualizarOptions = (pickerElementName, desactivar, valor, modal = "") => {
 
     // Destroy the specified picker element
     $(pickerElementName).select2('destroy'),
@@ -35,9 +49,18 @@ window.select2ActualizarOptions = (pickerElementName, desactivar, valor) => {
     $(pickerElementName).prop("disabled", desactivar),
     $(pickerElementName).val(valor).trigger('change');
 
-    $(pickerElementName).select2({
-        width: '100%'
-    });
+
+    if (modal == "") {
+        $(pickerElementName).select2({
+            width: '100%'
+        });
+    }
+    else {
+        $(pickerElementName).select2({
+            width: '100%',
+            dropdownParent: $('#' + modal + " .modal-body")
+        });
+    }
 
 }
 
