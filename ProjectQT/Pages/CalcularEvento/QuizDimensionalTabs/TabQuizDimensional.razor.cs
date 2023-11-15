@@ -16,9 +16,9 @@ namespace ProjectQT.Pages.CalcularEvento.QuizDimensionalTabs
 
         #region Tiempo
 
-        public DateTime FechaInicial { get; set; } = new DateTime(2023, 10, 13, 4, 0, 0);
+        public DateTime FechaInicial { get; set; } = new DateTime(2023, 11, 08, 5, 0, 0);
         public DateTime FinalizarEvento { get; set; }
-        public DateTime FechaActual { get; set; } = new DateTime(2023, 10, 13, 4, 0, 0);
+        public DateTime FechaActual { get; set; } = new DateTime(2023, 11, 08, 5, 0, 0);
 
         public TimeSpan TiempoFinales { get; set; } = TimeSpan.Zero;
 
@@ -283,13 +283,23 @@ namespace ProjectQT.Pages.CalcularEvento.QuizDimensionalTabs
            
         }
 
-        public void ActualizarFechaFinal(ChangeEventArgs  e) 
+        public async Task ActualizarFechaFinal(ChangeEventArgs  e) 
         {
-            DateTime Fecha = Convert.ToDateTime(e.Value);
+            try
+            {
+                DateTime Fecha = Convert.ToDateTime(e.Value);
 
-            FinalizarEvento = Fecha.AddDays(InfoEvento.DuracionEvento);
+                FinalizarEvento = Fecha.AddDays(InfoEvento.DuracionEvento);
 
-            FechaActual = Fecha;
+                FechaActual = Fecha;
+            }
+            catch 
+            {
+              
+                await JSRuntime.MostrarMensaje("Error", "Por favor no ingresar valores manual en este campo", Sweetalert2.TipoSweetalert2.error);
+                FechaActual = new DateTime(2023, 11, 08, 5, 0, 0);
+                FinalizarEvento = FechaInicial.AddDays(InfoEvento.DuracionEvento);
+            }
         }
 
 
@@ -809,6 +819,8 @@ namespace ProjectQT.Pages.CalcularEvento.QuizDimensionalTabs
            
                 int horaResets = FechaInicial.Hour;
 
+                bool compra = false;
+
                 if (OpcionPaqueteNutakuActual != "")
                 {
 
@@ -816,7 +828,9 @@ namespace ProjectQT.Pages.CalcularEvento.QuizDimensionalTabs
 
                     nivelMaquina = InfoEvento.PaqueteNutakuGold
                                 .Where(x => x.NivelProduccion - 1 == opcion)
-                                .Select(x => x.NivelProduccion).FirstOrDefault();               
+                                .Select(x => x.NivelProduccion).FirstOrDefault();
+
+                    compra = true;
 
                 }
 
@@ -827,6 +841,8 @@ namespace ProjectQT.Pages.CalcularEvento.QuizDimensionalTabs
                     nivelMaquina = InfoEvento.PaqueteNutakuGold
                                 .Where(x => x.NivelProduccion - 1 == opcion)
                                 .Select(x => x.NivelProduccion).FirstOrDefault();
+
+                    compra = true;
                 }
 
                 DateTime fechaReset = new DateTime(FechaActual.Year, FechaActual.Month, FechaActual.Day,
@@ -847,15 +863,32 @@ namespace ProjectQT.Pages.CalcularEvento.QuizDimensionalTabs
 
                 for (var i = nivel; i <= nivelMaximo; i++)
                 {
-                    nivelMaquina = i >= 3 && i < 5 && nivelMaquina == 1
-                                   ? 2 : i == 5 && nivelMaquina == 2
-                                   ? 3 : i == 6 ? 4 : nivelMaquina;
+
+                    if (compra)
+                    {
+                        nivelMaquina = i >= 3 && i < 5 && nivelMaquina == 1
+                                ? 2 : i == 5 && nivelMaquina == 2
+                                ? 3 : i == 6 ? 4 : nivelMaquina;
+
+
+
+                    }
+                    else 
+                    {
+                        nivelMaquina = i < 3 ? 1 :
+                                       i >= 3 && i < 5 ? 2 :
+                                       i == 5 ? 3 : 4;
+
+                    }
+
 
                     int materialMaquina = InfoEvento.InfoMaquina.FirstOrDefault(x => x.Nivel == nivelMaquina).Material;
 
                     List<DataExp> dataEXP = InfoEvento.DataExp.Where(x => x.Nivel == i).ToList();
 
                     int expNecesaria = InfoEvento.ExperienciaNecesaria[i];
+
+
 
                     if (exp >= expNecesaria)
                     {
@@ -867,11 +900,15 @@ namespace ProjectQT.Pages.CalcularEvento.QuizDimensionalTabs
                     {
                         for (int y = pregunta - 1; y < dataEXP.Count; y++)
                         {
+
                             int diferencia = mentas - dataEXP[y].Mentas;
                             int mentasActuales = mentas;
 
+
+
                             if (diferencia < 0)
                             {
+
 
                                 int requerido = dataEXP[y].Mentas - mentas;
 
@@ -884,6 +921,8 @@ namespace ProjectQT.Pages.CalcularEvento.QuizDimensionalTabs
 
                                 var diferenciaTiempos = (fechaReset - fechaActual);
                                 var diferenciaTiemposRecorrido = (fechaReset - fecha);
+
+
 
                                 if (expNecesaria - exp <= 1000 && fecha < FinalizarEvento &&
                                     (diferenciaTiempos.TotalMinutes <= 240 || 
@@ -958,7 +997,7 @@ namespace ProjectQT.Pages.CalcularEvento.QuizDimensionalTabs
 
 
                                     bool subidaNivel = exp >= expNecesaria;
- 
+     
 
                                     if (subidaNivel)
                                     {
@@ -1002,6 +1041,7 @@ namespace ProjectQT.Pages.CalcularEvento.QuizDimensionalTabs
                                 mentas = diferencia;
                                 exp += dataEXP[y].Exp;
 
+                                
 
                                 bool subidaNivel = exp >= expNecesaria;
 
@@ -1024,6 +1064,7 @@ namespace ProjectQT.Pages.CalcularEvento.QuizDimensionalTabs
                                     exp += InfoEvento.ExpSubidaNivel;
                                     TitulosNiveles.Add($"Nivel {i}");
                                     NotaDelNivel.Add("");
+                                    break;
 
                                 }
                    
